@@ -91,6 +91,43 @@ namespace EBC_Manager
         }
 
         /// <summary>
+        /// Checking reservation note length
+        /// </summary>
+        /// <param name="note"></param>
+        /// <returns></returns>
+        public Boolean ensureNote(string note)
+        {
+            //Note – poznámka k rezervaci (řetězec v rozsahu 0..300 znaků).
+            if (Enumerable.Range(0, 300).Contains(note.Length))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Check if requested person count suits room capacity
+        /// </summary>
+        /// <param name="requestedCapacity"></param>
+        /// <param name="maxRoomCapacity"></param>
+        /// <returns></returns>
+        public Boolean ensureReservationCapacity(int requestedCapacity, int maxRoomCapacity)
+        {
+            if (Enumerable.Range(1, maxRoomCapacity).Contains(requestedCapacity))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        /// <summary>
         /// Helper method for code checking. Returns false if code is unique
         /// </summary>
         /// <param name="code"></param>
@@ -99,14 +136,12 @@ namespace EBC_Manager
         {
             if(Globals.meetingCentresList.Find(mc => mc.centreCode == code) == null)
             {
-                bool codeInRooms = false;
                 foreach (MeetingCentre mc in Globals.meetingCentresList)
                 {
                     if (mc.meetingRoomsList.Find(mr => mr.roomCode == code) != null)
                     {
                         return true;
-                    }
-                    
+                    }                   
                 }
                 return false;
             }

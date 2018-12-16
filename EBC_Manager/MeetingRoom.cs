@@ -16,7 +16,7 @@ namespace EBC_Manager
         public int roomCapacity { get; set; }
         public bool roomVideo { get; set; }
         public string centreCode { get; set; }
-
+        public List<Reservation> reservationsList { get; set; }
         public MeetingRoom(string name, string code, string description, int capacity, bool video, string cCode)
         {
             this.roomName = name;
@@ -25,6 +25,7 @@ namespace EBC_Manager
             this.roomCapacity = capacity;
             this.roomVideo = video;
             this.centreCode = cCode;
+            this.reservationsList = new List<Reservation>();
         }
     }
 }
