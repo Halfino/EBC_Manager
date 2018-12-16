@@ -309,5 +309,42 @@ namespace EBC_Manager
             }
 
         }
+
+        private void CentreSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            MeetingCentre selected = (MeetingCentre)CentreSelector.SelectedItem;
+            RoomSelector.ItemsSource = selected.meetingRoomsList;
+        }
+
+        private void MeetingDatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DateTime selectedDate = (DateTime) meetingDatePicker.SelectedDate;
+            List<Reservation> selectedReservations = new List<Reservation>();
+            MeetingCentre selectedCentre = (MeetingCentre)CentreSelector.SelectedItem;
+            MeetingRoom selectedRoom = (MeetingRoom)RoomSelector.SelectedItem;
+            
+            foreach(Reservation reservation in selectedRoom.reservationsList)
+            {
+                if(reservation.meetingDate == selectedDate)
+                {
+                    selectedReservations.Add(reservation);
+                }
+            }
+
+            meetingsBox.ItemsSource = selectedReservations;
+        }
+
+        private void TestData_Click(object sender, RoutedEventArgs e)
+        {
+            MeetingRoom selectedRoom = (MeetingRoom)RoomSelector.SelectedItem;
+            DateTime date = new DateTime(2018, 12, 12);
+            TimeSpan start = new TimeSpan(10, 00, 00);
+            TimeSpan end = new TimeSpan(11, 00, 00);
+            Reservation res1 = new Reservation(date, start, end, 1, "Jan Koranda", false, "nic", selectedRoom.roomCode);
+            selectedRoom.reservationsList.Add(res1);
+            Reservation added = selectedRoom.reservationsList.First();
+            testLabel.Content = selectedRoom.reservationsList.Count;
+            
+        }
     }
 }
